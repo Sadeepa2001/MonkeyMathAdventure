@@ -6,7 +6,7 @@
   
   body {
     font-family: Arial, sans-serif;
-    background: url('images/Home (1).png') no-repeat center center fixed;  /* Your home page background image */
+    background: url('images/home.webp') no-repeat center center fixed;  /* Your home page background image */
     background-size: cover;
     height: 100vh;
     display: flex;
