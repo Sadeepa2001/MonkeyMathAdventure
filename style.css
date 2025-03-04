@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: url('images/Home (1).png') no-repeat center center fixed;  /* Your home page background image */
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  #game-container {
+    text-align: center;
+  }
+  
+  header {
+    margin-bottom: 40px;
+  }
+  
+  #game-title h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffcc00;
+  }
+  
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .game-button {
+    font-size: 1.5rem;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffcc00;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .game-button:hover {
+    background-color: #e6b800;
+  }
+  
+  footer {
+    margin-top: 40px;
+    font-size: 1rem;
+  }
+  
