@@ -16,13 +16,17 @@
 
     <main>
       <div class="form-container">
+       
         <form id="login-form">
-          <label for="username">Username:</label>
-          <input type="text" id="username" name="username" required>
-          
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required>
-          
+            <div class="input-container">
+              <label for="username">Username:</label>
+              <input type="text" id="username" name="username" required>
+            </div>  
+            <div class="input-container">
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password" required>
+            </div>
+            
           <button type="submit" class="game-button">Login</button>
         </form>
         <p>Don't have an account? <a href="register.html">Sign up</a></p>
@@ -33,6 +37,8 @@
       <p>&copy; 2025 Monkey Math Adventure</p>
     </footer>
   </div>
+
+  <img src="images/bucket.png"  alt"Banana Bucket" class="banana-bucket">
 
   <script src="game.js"></script>
 </body>

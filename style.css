@@ -12,12 +12,24 @@ body {
   align-items: center;
   color: white;
   margin: 0;
+  position: relative; /* Allow absolute positioning for the banana bucket image */
+  overflow: hidden; /* Ensure no scrollbars appear */
 }
+
 
 /* General background settings */
 body.register-page {
   background: url('images/register.jpg') no-repeat center center fixed;
   background-size: cover; /* Ensures the image covers the entire page */
+}
+body.login-page {
+  background: url('images/login.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+body.home-page {
+  background: url('images/home.webp') no-repeat center center fixed;
+  background-size: cover;
 }
 
 /* Semi-transparent container for form */
@@ -28,6 +40,16 @@ body.register-page {
   width: 100%;
   max-width: 600px;
   text-align: center;
+}
+
+/* Add Banana Bucket Image on the Right Side */
+.banana-bucket {
+  position: absolute;
+  top: 50%;
+  right: 10%; /* Adjust for better alignment */
+  width: 350px; /* Set a size for the image */
+  height: auto;
+  z-index: 1;
 }
 
 header {
@@ -93,13 +115,141 @@ footer {
   font-size: 1rem;
 }
 
-/* Background images for other pages */
+/* Styling for the banana bucket to appear on the right */
+body.register-page,
 body.login-page {
-  background: url('images/login.jpg') no-repeat center center fixed;
+  background: url('images/register.jpg') no-repeat center center fixed;
   background-size: cover;
 }
 
-body.home-page {
-  background: url('images/home.webp') no-repeat center center fixed;
-  background-size: cover;
+/* Style for form input containers to manage floating labels */
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  display: block;
+}
+
+label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #ccc;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* When the input is focused, or has content, the label will move up */
+input:focus + label,
+input:not(:placeholder-shown) + label,
+input:valid + label {
+  top: -10px;
+  font-size: 0.85rem;
+  color: #ffcc00;
+}
+
+/* When the user starts typing, the label should disappear */
+input:focus + label,
+input:valid + label {
+  display: none;
+}
+
+/* Adding some focus styles for inputs */
+input:focus {
+  outline: none;
+  border-color: #ffcc00;
+}
+
+/* General button styles */
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between buttons */
+  align-items: center; /* Center the buttons */
+  margin-top: 20px;
+}
+
+/* Individual button styles */
+.game-button {
+  font-size: 1.5rem;
+  padding: 15px 30px;
+  border: 2px solid #ffcc00;  /* Add a border to make buttons stand out */
+  border-radius: 10px;
+  background-color: #ffcc00;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 200px;  /* Fix width for consistency */
+  text-align: center;  /* Center text in button */
+}
+
+/* Button hover effects */
+.game-button:hover {
+  background-color: #e6b800;
+  transform: scale(1.05);  /* Slight zoom effect on hover */
+}
+
+/* Active state when button is clicked */
+.game-button:active {
+  background-color: #e6b800;
+  transform: scale(1);  /* Reset zoom effect on click */
+}
+
+/* Banana Rain Effect */
+#banana-rain-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Ensure the rain doesn't interfere with user interactions */
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Individual Banana Animation */
+.banana {
+  position: absolute;
+  width: 50px; /* Adjust banana size */
+  height: auto;
+  animation: fall 5s linear infinite;
+}
+
+/* Keyframes for falling bananas */
+@keyframes fall {
+  0% {
+    top: -50px; /* Start above the screen */
+    left: 0;
+  }
+  100% {
+    top: 100vh; /* End at the bottom of the screen */
+  }
+}
+
+/* Footer styles */
+footer {
+  margin-top: 40px;
+  font-size: 1rem;
+}
+
+/* For the game title and other content */
+#game-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+#game-title h1 {
+  font-size: 3rem;
+  color: #ffcc00;
 }
