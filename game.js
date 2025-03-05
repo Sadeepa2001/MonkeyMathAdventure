@@ -1,16 +1,38 @@
-// Event listeners for button clicks
-document.getElementById('start-game').addEventListener('click', function() {
-    alert('Start Game button clicked!');
-    // You can add the logic to start the game or redirect to the game screen
-  });
+// Login Form submission
+document.getElementById('login-form').addEventListener('submit', function(event) {
+  event.preventDefault();  // Prevent page reload
   
-  document.getElementById('about').addEventListener('click', function() {
-    alert('About button clicked!');
-    // You can add logic to display the game information or redirect to an About page
-  });
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
   
-  document.getElementById('leaderboard').addEventListener('click', function() {
-    alert('Leaderboard button clicked!');
-    // You can add logic to show the leaderboard or redirect to a leaderboard page
-  });
+  if (username && password) {
+    // Normally, here you'd authenticate against a backend (e.g., API call)
+    // For now, we're assuming a successful login
+    alert(`Logged in as ${username}`);
+    
+    // Redirect to the home page after successful login
+    window.location.href = 'home.html';
+  } else {
+    alert('Please fill in both fields.');
+  }
+});
+
+// Register Form submission
+document.getElementById('register-form').addEventListener('submit', function(event) {
+  event.preventDefault();  // Prevent page reload
   
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirm-password').value;
+  const email = document.getElementById('email').value;
+  
+  if (password === confirmPassword) {
+    // Normally, you'd save the user info to the database here (backend call)
+    alert('Account created successfully!');
+    
+    // Redirect to login page after successful registration
+    window.location.href = 'login.html';
+  } else {
+    alert('Passwords do not match.');
+  }
+});
