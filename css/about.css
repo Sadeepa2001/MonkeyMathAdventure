@@ -4,7 +4,7 @@ body.about-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 98vh;
     color: white;
     text-align: center;
 }
@@ -13,12 +13,12 @@ body.about-page {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 40px;
     border-radius: 20px;
-    max-width: 600px;
+    width: 900px;
 }
 
 .back-button {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 200px;
     padding: 10px 20px;
     background-color: #ffcc00;
     color: black;

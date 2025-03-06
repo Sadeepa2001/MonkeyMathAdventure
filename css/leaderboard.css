@@ -4,16 +4,16 @@ body.leaderboard-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 95vh;
     color: white;
     text-align: center;
 }
 
 #leaderboard-container {
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 40px;
+    padding: 20px;
     border-radius: 20px;
-    max-width: 600px;
+    width: 600px;
 }
 
 table {
@@ -34,7 +34,7 @@ th {
 
 .back-button {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 10px 20px;
     background-color: #ffcc00;
     color: black;
