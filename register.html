@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - Monkey Math Adventure</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <img src="images/bucket.png"  alt"Banana Bucket" class="banana-bucket">
+  
 </head>
 <body class="register-page">
   <div id="game-container">
@@ -49,8 +51,12 @@
       <p>&copy; 2025 Monkey Math Adventure</p>
     </footer>
   </div>
-  <img src="images/bucket.png"  alt"Banana Bucket" class="banana-bucket">
-
-  <script src="game.js"></script>
+      <style>
+      body.register-page {
+        background: url('images/register.jpg') no-repeat center center fixed;
+        background-size: cover; /* Ensures the image covers the entire page */
+      }
+      </style>
+  <script src="js/game.js"></script>
 </body>
 </html>

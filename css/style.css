@@ -15,23 +15,6 @@ body {
   position: relative; /* Allow absolute positioning for the banana bucket image */
   overflow: hidden; /* Ensure no scrollbars appear */
 }
-
-
-/* General background settings */
-body.register-page {
-  background: url('images/register.jpg') no-repeat center center fixed;
-  background-size: cover; /* Ensures the image covers the entire page */
-}
-body.login-page {
-  background: url('images/login.jpg') no-repeat center center fixed;
-  background-size: cover;
-}
-
-body.home-page {
-  background: url('images/home.webp') no-repeat center center fixed;
-  background-size: cover;
-}
-
 /* Semi-transparent container for form */
 #game-container {
   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for better contrast */
