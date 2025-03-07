@@ -3,14 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start Game</title>
+    <title>Play Monkey Math Adventure</title>
     <link rel="stylesheet" href="css/start-game.css">
     <script defer src="js/start-game.js"></script>
 </head>
-<body class="start-game-page">
+<body class="game-page">
     <div id="game-container">
-        <h1>Start the Game</h1>
-        <button id="start-button">Play Now</button>
+        <h1>Monkey Math Adventure</h1>
+        
+        <!-- Display the question image -->
+        <img id="question-image" src="" alt="Math Question" class="question-image">
+        
+        <!-- Input field for user answer -->
+        <input type="number" id="user-answer" placeholder="Enter your answer">
+        <button id="submit-answer">Submit</button>
+
+        <!-- Hidden field to store the correct answer -->
+        <input type="hidden" id="correct-answer">
+
+        <!-- Display feedback -->
+        <p id="feedback"></p>
+
+        <!-- Back to Home Button -->
+        <a href="home.html" class="back-button">Back to Home</a>
     </div>
 </body>
 </html>

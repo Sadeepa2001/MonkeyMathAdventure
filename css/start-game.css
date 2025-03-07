@@ -1,31 +1,46 @@
-body.start-game-page {
-    background: url('images/start-game.jpg') no-repeat center center fixed;
+body.game-page {
+    background: url("../images/startgame.jpeg") no-repeat center center fixed;
     background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: white;
     text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
 #game-container {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 40px;
-    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 50px auto;
 }
 
-#start-button {
-    font-size: 1.5rem;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 10px;
+.question-image {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 10px; /* Add rounded corners */
+}
+
+input {
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    width: 80%;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
     background-color: #ffcc00;
-    color: black;
+    border: none;
     cursor: pointer;
+    border-radius: 10px;
     transition: background-color 0.3s ease;
 }
 
-#start-button:hover {
+button:hover {
     background-color: #e6b800;
 }
