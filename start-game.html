@@ -12,13 +12,18 @@
         <h1>Monkey Math Adventure</h1>
         
         <p id="selected-level">Loading Level...</p>
+        <p id="score">⭐ Score: 0</p>
 
         <!-- Display the question image -->
         <img id="question-image" src="" alt="Math Question" class="question-image">
         
         <!-- Input field for user answer -->
         <input type="number" id="user-answer" placeholder="Enter your answer">
-        <button id="submit-answer">Submit</button>
+        <div class="controls">
+            <p id="lives">❤️ Lives: 5</p>
+            <button id="submit-answer">Submit</button>
+            <p id="timer">⏳ Timer: 60s</p>
+        </div>
 
         <!-- Hidden field to store the correct answer -->
         <input type="hidden" id="correct-answer">
@@ -27,7 +32,7 @@
         <p id="feedback"></p>
 
         <!-- Back to Home Button -->
-        <a href="level-selection.html" class="back-button">Back to Level Selection</a>
+        <a href="level-selection.html" class="back-button">Back</a>
     </div>
 </body>
 </html>

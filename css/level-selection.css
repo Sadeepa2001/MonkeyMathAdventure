@@ -8,10 +8,11 @@ body.level-selection-page {
 
 #level-container {
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 30px;
-    border-radius: 10px;
-    max-width: 400px;
-    margin: 100px auto;
+    padding: 50px;
+    border-radius: 25px;
+    width: 400px;
+    margin: 150px auto;
+    position: relative; /* Add this line */
 }
 
 h1 {
@@ -43,4 +44,20 @@ h1 {
 
 .level-button:hover {
     opacity: 0.8;
+}
+
+.back-button {
+    display: inline-block;
+    position: absolute; /* Add this line */
+    bottom: 10px; /* Add this line */
+    right: 20px; /* Add this line */
+    padding: 10px 20px; /* Adjust padding as needed */
+    background-color: #ffcc00;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.back-button:hover {
+    background-color: #e6b800;
 }

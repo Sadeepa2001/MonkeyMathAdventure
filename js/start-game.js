@@ -33,24 +33,19 @@ document.addEventListener("DOMContentLoaded", function () {
     let score = 0; // Initialize score
 
     // Update UI elements
-    const timerDisplay = document.createElement("p");
-    timerDisplay.id = "timer";
-    timerDisplay.textContent = `⏳ Time Left: ${remainingTime}s`;
+    const timerDisplay = document.getElementById("timer");
+    timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
 
-    const livesDisplay = document.createElement("p");
-    livesDisplay.id = "lives";
+    const livesDisplay = document.getElementById("lives");
     livesDisplay.textContent = `❤️ Lives: ${remainingLives}`;
 
-    const scoreDisplay = document.createElement("p");
-    scoreDisplay.id = "score";
+    const scoreDisplay = document.getElementById("score");
     scoreDisplay.textContent = `⭐ Score: ${score}`;
-
-    document.getElementById("game-container").prepend(timerDisplay, livesDisplay, scoreDisplay);
 
     // Start countdown timer
     const timerInterval = setInterval(() => {
         remainingTime--;
-        timerDisplay.textContent = `⏳ Time Left: ${remainingTime}s`;
+        timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
 
         if (remainingTime <= 0) {
             clearInterval(timerInterval);
@@ -76,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (userAnswer === correctAnswer) {
             feedback.textContent = "🎉 Correct! Well done!";
             feedback.style.color = "green";
-            score+=10; // Increment score
+            score += 10; // Increment score
             scoreDisplay.textContent = `⭐ Score: ${score}`; // Update score display
 
             if (score >= 100) {

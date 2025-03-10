@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 // Redirect to respective pages when buttons are clicked
 document.getElementById('start-game').addEventListener('click', function() {
-  window.location.href = 'start-game.html';  // Redirect to Start Game page
+  window.location.href = 'level-selection.html';  // Redirect to Start Game page
 });
 
 document.getElementById('about').addEventListener('click', function() {
