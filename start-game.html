@@ -10,7 +10,19 @@
 <body class="game-page">
     <div id="game-container">
         <h1>Monkey Math Adventure</h1>
-        
+
+        <!-- Difficulty Selection -->
+        <div id="difficulty-selection">
+            <button onclick="setDifficulty('Easy')">Easy</button>
+            <button onclick="setDifficulty('Medium')">Medium</button>
+            <button onclick="setDifficulty('Hard')">Hard</button>
+        </div>
+
+        <!-- Display Lives, Score, and Timer -->
+        <p id="lives">Lives: 5</p>
+        <p id="score">Score: 0</p>
+        <p id="timer">Time Left: 30s</p>
+
         <!-- Display the question image -->
         <img id="question-image" src="" alt="Math Question" class="question-image">
         
@@ -18,11 +30,11 @@
         <input type="number" id="user-answer" placeholder="Enter your answer">
         <button id="submit-answer">Submit</button>
 
-        <!-- Hidden field to store the correct answer -->
-        <input type="hidden" id="correct-answer">
-
         <!-- Display feedback -->
         <p id="feedback"></p>
+
+        <!-- Monkey Celebration -->
+        <img id="monkey" src="images/monkey.png" alt="Monkey" class="monkey">
 
         <!-- Back to Home Button -->
         <a href="home.html" class="back-button">Back to Home</a>
