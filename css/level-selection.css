@@ -1,0 +1,46 @@
+body.level-selection-page {
+    background: url("../images/startgame.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#level-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 100px auto;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.level-button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.level-button[data-level="easy"] {
+    background-color: #4CAF50;
+}
+
+.level-button[data-level="medium"] {
+    background-color: #FFA500;
+}
+
+.level-button[data-level="hard"] {
+    background-color: #FF0000;
+}
+
+.level-button:hover {
+    opacity: 0.8;
+}

@@ -44,13 +44,6 @@ button {
 button:hover {
     background-color: #e6b800;
 }
-
-/* Monkey Celebration Animation */
-.monkey {
-    width: 100px;
-    margin-top: 20px;
-}
-
 .celebrate {
     animation: bounce 0.5s infinite;
 }
@@ -58,4 +51,23 @@ button:hover {
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
+}
+#timer {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+#lives {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff4444;
+}
+
+#monkey-celebrate {
+    width: 150px;
+    height: auto;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
 }

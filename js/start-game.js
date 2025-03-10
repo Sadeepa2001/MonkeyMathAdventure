@@ -1,14 +1,68 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameLevel = urlParams.get("level") || "easy"; // Default to easy if no level is selected
+
+    const levelDisplay = document.getElementById("selected-level");
+    if (levelDisplay) {
+        levelDisplay.textContent = `Level: ${gameLevel.toUpperCase()}`;
+    }
+
+    // Game settings based on level
+    let timeLimit, lives;
+    switch (gameLevel) {
+        case "easy":
+            timeLimit = 60; // 60 seconds
+            lives = 5;
+            break;
+        case "medium":
+            timeLimit = 40; // 40 seconds
+            lives = 3;
+            break;
+        case "hard":
+            timeLimit = 25; // 25 seconds
+            lives = 2;
+            break;
+        default:
+            timeLimit = 60;
+            lives = 5;
+    }
+
+    let remainingTime = timeLimit;
+    let remainingLives = lives;
+    let correctAnswer;
+    let score = 0; // Initialize score
+
+    // Update UI elements
+    const timerDisplay = document.createElement("p");
+    timerDisplay.id = "timer";
+    timerDisplay.textContent = `⏳ Time Left: ${remainingTime}s`;
+
+    const livesDisplay = document.createElement("p");
+    livesDisplay.id = "lives";
+    livesDisplay.textContent = `❤️ Lives: ${remainingLives}`;
+
+    const scoreDisplay = document.createElement("p");
+    scoreDisplay.id = "score";
+    scoreDisplay.textContent = `⭐ Score: ${score}`;
+
+    document.getElementById("game-container").prepend(timerDisplay, livesDisplay, scoreDisplay);
+
+    // Start countdown timer
+    const timerInterval = setInterval(() => {
+        remainingTime--;
+        timerDisplay.textContent = `⏳ Time Left: ${remainingTime}s`;
+
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);
+            endGame(false);
+        }
+    }, 1000);
+
     fetchBananaQuestion();
 
     const submitButton = document.getElementById("submit-answer");
     const userInput = document.getElementById("user-answer");
     const feedback = document.getElementById("feedback");
-
-    if (!submitButton || !userInput || !feedback) {
-        console.error("❌ Missing required elements in HTML. Check IDs.");
-        return;
-    }
 
     submitButton.addEventListener("click", function () {
         const userAnswer = parseInt(userInput.value.trim());
@@ -20,130 +74,73 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (userAnswer === correctAnswer) {
-            handleCorrectAnswer();
+            feedback.textContent = "🎉 Correct! Well done!";
+            feedback.style.color = "green";
+            score+=10; // Increment score
+            scoreDisplay.textContent = `⭐ Score: ${score}`; // Update score display
+
+            if (score >= 100) {
+                clearInterval(timerInterval);
+                endGame(true);
+                return;
+            }
+
+            setTimeout(() => {
+                feedback.textContent = "";
+                userInput.value = "";
+                fetchBananaQuestion();
+            }, 2000);
         } else {
-            handleIncorrectAnswer();
+            feedback.textContent = "❌ Wrong answer! Try again.";
+            feedback.style.color = "red";
+            remainingLives--;
+            livesDisplay.textContent = `❤️ Lives: ${remainingLives}`;
+
+            if (remainingLives === 0) {
+                clearInterval(timerInterval);
+                endGame(false);
+            }
         }
     });
+
+    function endGame(won) {
+        alert(won ? `🎉 Congratulations! You won with a score of ${score}!` : `❌ Game Over! Your score is ${score}. Try again.`);
+        window.location.href = "level-selection.html";
+    }
+
+    // Fetch a new math question from the API
+    async function fetchBananaQuestion() {
+        try {
+            const response = await fetch("http://localhost:5000/banana-api");
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("API Response:", data);
+
+            const questionImage = document.getElementById("question-image");
+
+            if (questionImage && data.question && data.solution !== undefined) {
+                questionImage.src = data.question;
+                correctAnswer = parseInt(data.solution);
+            } else {
+                console.error("Invalid response from API");
+                displayError("Failed to load question. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error fetching question:", error);
+            displayError("Failed to load question. Check your internet or proxy server.");
+        }
+    }
+
+    // Function to show an error message
+    function displayError(message) {
+        const feedback = document.getElementById("feedback");
+        if (feedback) {
+            feedback.textContent = message;
+            feedback.style.color = "red";
+        }
+    }
 });
-
-// Global variables
-let difficulty = "Easy";
-let timeLimit;
-let lives;
-let score = 0;
-let correctAnswer;
-let timer;
-
-// Set difficulty settings
-function setDifficulty(level) {
-    difficulty = level;
-
-    if (level === "Easy") {
-        timeLimit = 30;
-        lives = 5;
-    } else if (level === "Medium") {
-        timeLimit = 20;
-        lives = 3;
-    } else if (level === "Hard") {
-        timeLimit = 10;
-        lives = 1;
-    }
-
-    document.getElementById("lives").textContent = `Lives: ${lives}`;
-    document.getElementById("score").textContent = `Score: ${score}`;
-    fetchBananaQuestion();
-}
-
-// Fetch question from API
-async function fetchBananaQuestion() {
-    try {
-        const response = await fetch("http://localhost:5000/banana-api");
-        
-        if (!response.ok) {
-            throw new Error(`API error: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log("API Response:", data);
-
-        const questionImage = document.getElementById("question-image");
-
-        if (questionImage && data.question && data.solution !== undefined) {
-            questionImage.src = data.question;
-            correctAnswer = parseInt(data.solution);
-            startTimer(); // Start timer when question appears
-        } else {
-            console.error("Invalid response from API");
-            displayError("Failed to load question. Please try again.");
-        }
-    } catch (error) {
-        console.error("Error fetching question:", error);
-        displayError("Failed to load question. Check your internet or proxy server.");
-    }
-}
-
-// Start countdown timer
-function startTimer() {
-    let timeLeft = timeLimit;
-    document.getElementById("timer").textContent = `Time Left: ${timeLeft}s`;
-
-    clearInterval(timer); // Stop previous timer
-    timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById("timer").textContent = `Time Left: ${timeLeft}s`;
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            handleIncorrectAnswer();
-        }
-    }, 1000);
-}
-
-// Handle correct answer
-function handleCorrectAnswer() {
-    score += 10;
-    document.getElementById("score").textContent = `Score: ${score}`;
-    document.getElementById("feedback").textContent = "🎉 Correct! Well done!";
-    document.getElementById("feedback").style.color = "green";
-
-    // Monkey celebrates
-    document.getElementById("monkey").classList.add("celebrate");
-    setTimeout(() => {
-        document.getElementById("monkey").classList.remove("celebrate");
-    }, 1500);
-
-    setTimeout(() => {
-        document.getElementById("feedback").textContent = "";
-        document.getElementById("user-answer").value = "";
-        fetchBananaQuestion();
-    }, 1500);
-}
-
-// Handle incorrect answer
-function handleIncorrectAnswer() {
-    lives--;
-    document.getElementById("lives").textContent = `Lives: ${lives}`;
-    document.getElementById("feedback").textContent = "❌ Wrong answer! Try again.";
-    document.getElementById("feedback").style.color = "red";
-
-    if (lives <= 0) {
-        alert("Game Over! Try Again.");
-        location.reload(); // Restart game
-    } else {
-        setTimeout(() => {
-            document.getElementById("feedback").textContent = "";
-            document.getElementById("user-answer").value = "";
-            fetchBananaQuestion();
-        }, 1500);
-    }
-}
-
-// Show error message
-function displayError(message) {
-    const feedback = document.getElementById("feedback");
-    if (feedback) {
-        feedback.textContent = message;
-        feedback.style.color = "red";
-    }
-}
