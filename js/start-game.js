@@ -1,26 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
     fetchBananaQuestion();
 
-    document.getElementById("submit-answer").addEventListener("click", function () {
-        const userAnswer = parseInt(document.getElementById("user-answer").value.trim());
-        const feedback = document.getElementById("feedback");
+    const submitButton = document.getElementById("submit-answer");
+    const userInput = document.getElementById("user-answer");
+    const feedback = document.getElementById("feedback");
 
-        if (!userAnswer && userAnswer !== 0) {
+    if (!submitButton || !userInput || !feedback) {
+        console.error("❌ Missing required elements in HTML. Check IDs.");
+        return;
+    }
+
+    submitButton.addEventListener("click", function () {
+        const userAnswer = parseInt(userInput.value.trim());
+
+        if (isNaN(userAnswer)) {
             feedback.textContent = "⚠️ Please enter a valid number!";
             feedback.style.color = "orange";
             return;
         }
 
-        // Check the answer
         if (userAnswer === correctAnswer) {
             feedback.textContent = "🎉 Correct! Well done!";
             feedback.style.color = "green";
 
-            // Wait for 1.5 seconds, then load a new question
             setTimeout(() => {
-                feedback.textContent = ""; // Clear feedback
-                document.getElementById("user-answer").value = ""; // Clear input
-                fetchBananaQuestion(); // Load next question
+                feedback.textContent = "";
+                userInput.value = "";
+                fetchBananaQuestion();
             }, 1500);
         } else {
             feedback.textContent = "❌ Wrong answer! Try again.";
@@ -32,21 +38,37 @@ document.addEventListener("DOMContentLoaded", function () {
 // Global variable to store the correct answer
 let correctAnswer;
 
-// Function to fetch a math question from the Banana API
 async function fetchBananaQuestion() {
     try {
-        const response = await fetch("https://cors-anywhere.herokuapp.com/http://marcconrad.com/uob/banana/api.php?out=json");
-        const data = await response.json();
+        const response = await fetch("http://localhost:5000/banana-api");
         
-        console.log("API Response:", data); // Debugging - Check API Response
+        if (!response.ok) {
+            throw new Error(`API error: ${response.statusText}`);
+        }
 
-        if (data.question && data.solution !== undefined) {
-            document.getElementById("question-image").src = data.question;
-            correctAnswer = parseInt(data.solution); // Store the correct answer
+        const data = await response.json();
+        console.log("API Response:", data);
+
+        const questionImage = document.getElementById("question-image");
+
+        if (questionImage && data.question && data.solution !== undefined) {
+            questionImage.src = data.question;
+            correctAnswer = parseInt(data.solution);
         } else {
             console.error("Invalid response from API");
+            displayError("Failed to load question. Please try again.");
         }
     } catch (error) {
         console.error("Error fetching question:", error);
+        displayError("Failed to load question. Check your internet or proxy server.");
+    }
+}
+
+// Function to show an error message
+function displayError(message) {
+    const feedback = document.getElementById("feedback");
+    if (feedback) {
+        feedback.textContent = message;
+        feedback.style.color = "red";
     }
 }
