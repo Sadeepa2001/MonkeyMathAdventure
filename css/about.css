@@ -1,31 +1,43 @@
 body.about-page {
     background: url('images/about.jpg') no-repeat center center fixed;
     background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 97vh;
-    color: white;
-    text-align: center;
 }
 
 #about-container {
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 40px;
+    padding: 30px;
     border-radius: 20px;
-    width: 900px;
+    max-width: 600px;
+    margin: 130px auto;
+    position: relative; /* Add this line */
+    color: white;
+    text-align: left;
+    font-family: Arial, sans-serif;
 }
-
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center
+}
+p, ul {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+ul {
+    list-style-type: disc;
+    padding-left: 80px;
+}
 .back-button {
     display: inline-block;
-    margin-top: 200px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
     padding: 10px 20px;
     background-color: #ffcc00;
     color: black;
     text-decoration: none;
     border-radius: 5px;
 }
-
 .back-button:hover {
     background-color: #e6b800;
 }
