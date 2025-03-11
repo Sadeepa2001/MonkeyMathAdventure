@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let remainingLives = lives;
     let correctAnswer;
     let score = 0; // Initialize score
+    let timerInterval;
 
     // Update UI elements
     const timerDisplay = document.getElementById("timer");
@@ -42,16 +43,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const scoreDisplay = document.getElementById("score");
     scoreDisplay.textContent = `⭐ Score: ${score}`;
 
-    // Start countdown timer
-    const timerInterval = setInterval(() => {
-        remainingTime--;
+    // Function to start the countdown timer
+    function startTimer() {
+        clearInterval(timerInterval); // Clear any existing interval
+        remainingTime = timeLimit; // Reset remaining time
         timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
 
-        if (remainingTime <= 0) {
-            clearInterval(timerInterval);
-            endGame(false);
-        }
-    }, 1000);
+        timerInterval = setInterval(() => {
+            remainingTime--;
+            timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
+
+            if (remainingTime <= 0) {
+                clearInterval(timerInterval);
+                endGame(false);
+            }
+        }, 1000);
+    }
 
     fetchBananaQuestion();
 
@@ -120,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (questionImage && data.question && data.solution !== undefined) {
                 questionImage.src = data.question;
                 correctAnswer = parseInt(data.solution);
+                startTimer(); 
             } else {
                 console.error("Invalid response from API");
                 displayError("Failed to load question. Please try again.");
