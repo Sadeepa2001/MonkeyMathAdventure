@@ -84,3 +84,30 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(generateBananas, 2000);
   }
 });
+document.addEventListener("DOMContentLoaded", function () {
+  // 🔹 Navigation for Main Buttons
+  document.getElementById("start-game")?.addEventListener("click", () => {
+    window.location.href = "level-selection.html";
+  });
+
+  document.getElementById("about")?.addEventListener("click", () => {
+    window.location.href = "about.html";
+  });
+
+  document.getElementById("leaderboard")?.addEventListener("click", () => {
+    window.location.href = "leaderboard.html";
+  });
+
+  // 🔹 Navigation for Icon Buttons
+  document.getElementById("login-btn")?.addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
+
+  document.getElementById("register-btn")?.addEventListener("click", () => {
+    window.location.href = "register.html";
+  });
+
+  document.getElementById("profile-btn")?.addEventListener("click", () => {
+    window.location.href = "profile.html";
+  });
+});

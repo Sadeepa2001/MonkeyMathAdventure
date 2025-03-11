@@ -204,19 +204,37 @@ input:focus {
 /* Individual Banana Animation */
 .banana {
   position: absolute;
-  width: 50px; /* Adjust banana size */
+  top: 0;
+  width: 50px;
   height: auto;
-  animation: fall 5s linear infinite;
+  animation: fall 5s linear infinite, spin 2s linear infinite;
 }
+
 
 /* Keyframes for falling bananas */
 @keyframes fall {
   0% {
     top: -50px; /* Start above the screen */
-    left: 0;
+    opacity: 0; /* Start invisible */
+  }
+  10% {
+    opacity: 1; /* Fade in */
+  }
+  90% {
+    opacity: 1; /* Stay visible */
   }
   100% {
     top: 100vh; /* End at the bottom of the screen */
+    opacity: 0; /* Fade out */
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -236,3 +254,29 @@ footer {
   font-size: 3rem;
   color: #ffcc00;
 }
+/* Style for Icon Buttons */
+.icon-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.icon-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icon-button img {
+  width: 40px; /* Adjust the size as needed */
+  height: 40px;
+  border-radius: 50%; /* Makes the icons circular */
+  transition: transform 0.3s ease;
+}
+
+.icon-button img:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
