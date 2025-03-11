@@ -19,11 +19,11 @@
     <main>
       <div class="form-container">
         <form id="register-form">
-            <div class="input-container">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+              <div class="input-container">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
             </div>
-
+        
             <div class="input-container">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
@@ -34,10 +34,6 @@
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
 
-            <div class="input-container">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
             <div class="Button">
                 <button type="submit" class="game-button">Register</button>
             </div>
@@ -57,6 +53,6 @@
         background-size: cover; /* Ensures the image covers the entire page */
       }
       </style>
-  <script src="js/game.js"></script>
+  <script type="module" src="js/game.js"></script>
 </body>
 </html>
