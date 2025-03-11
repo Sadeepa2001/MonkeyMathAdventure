@@ -54,64 +54,12 @@ header {
 }
 
 /* Input fields */
-form label {
-  font-size: 1rem;
-  margin-bottom: 50px;
-}
-
-form input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  width: 100%;
-}
-
-/* Button styles */
-form button {
-  font-size: 1.5rem;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  background-color: #ffcc00;
-  color: black;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-form button:hover {
-  background-color: #e6b800;
-}
-
-/* Link styles */
-a {
-  color: #ffcc00;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-footer {
-  margin-top: 40px;
-  font-size: 1rem;
-}
-
-/* Styling for the banana bucket to appear on the right */
-body.register-page,
-body.login-page {
-  background: url('images/register.jpg') no-repeat center center fixed;
-  background-size: cover;
-}
-
-/* Style for form input containers to manage floating labels */
 .input-container {
   position: relative;
   margin-bottom: 20px;
 }
 
-input {
+.input-container input {
   padding: 10px;
   font-size: 1rem;
   width: 100%;
@@ -122,7 +70,7 @@ input {
   display: block;
 }
 
-label {
+.input-container label {
   position: absolute;
   top: 50%;
   left: 10px;
@@ -133,128 +81,49 @@ label {
   transition: all 0.3s ease;
 }
 
-/* When the input is focused, or has content, the label will move up */
-input:focus + label,
-input:not(:placeholder-shown) + label,
-input:valid + label {
+/* Labels disappear when typing */
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
   top: -10px;
   font-size: 0.85rem;
   color: #ffcc00;
+  opacity: 0; /* Hide label */
 }
 
-/* When the user starts typing, the label should disappear */
-input:focus + label,
-input:valid + label {
-  display: none;
-}
-
-/* Adding some focus styles for inputs */
-input:focus {
-  outline: none;
-  border-color: #ffcc00;
-}
-
-/* General button styles */
-.buttons-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; /* Space between buttons */
-  align-items: center; /* Center the buttons */
-  margin-top: 20px;
-}
-
-/* Individual button styles */
+/* Buttons styling */
 .game-button {
   font-size: 1.5rem;
   padding: 15px 30px;
-  border: 2px solid #ffcc00;  /* Add a border to make buttons stand out */
+  border: 2px solid #ffcc00;
   border-radius: 10px;
   background-color: #ffcc00;
   color: black;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 200px;  /* Fix width for consistency */
-  text-align: center;  /* Center text in button */
+  width: 200px;
+  text-align: center;
 }
 
-/* Button hover effects */
 .game-button:hover {
   background-color: #e6b800;
-  transform: scale(1.05);  /* Slight zoom effect on hover */
+  transform: scale(1.05);
 }
 
-/* Active state when button is clicked */
 .game-button:active {
   background-color: #e6b800;
-  transform: scale(1);  /* Reset zoom effect on click */
+  transform: scale(1);
 }
 
-/* Banana Rain Effect */
-#banana-rain-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* Ensure the rain doesn't interfere with user interactions */
-  overflow: hidden;
-  z-index: 1;
+/* Navigation Buttons Container */
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
 }
 
-/* Individual Banana Animation */
-.banana {
-  position: absolute;
-  top: 0;
-  width: 50px;
-  height: auto;
-  animation: fall 5s linear infinite, spin 2s linear infinite;
-}
-
-
-/* Keyframes for falling bananas */
-@keyframes fall {
-  0% {
-    top: -50px; /* Start above the screen */
-    opacity: 0; /* Start invisible */
-  }
-  10% {
-    opacity: 1; /* Fade in */
-  }
-  90% {
-    opacity: 1; /* Stay visible */
-  }
-  100% {
-    top: 100vh; /* End at the bottom of the screen */
-    opacity: 0; /* Fade out */
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Footer styles */
-footer {
-  margin-top: 40px;
-  font-size: 1rem;
-}
-
-/* For the game title and other content */
-#game-title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-#game-title h1 {
-  font-size: 3rem;
-  color: #ffcc00;
-}
-/* Style for Icon Buttons */
+/* Small Icon Buttons */
 .icon-buttons {
   display: flex;
   justify-content: center;
@@ -270,13 +139,78 @@ footer {
 }
 
 .icon-button img {
-  width: 40px; /* Adjust the size as needed */
+  width: 40px;
   height: 40px;
-  border-radius: 50%; /* Makes the icons circular */
+  border-radius: 50%;
   transition: transform 0.3s ease;
 }
 
 .icon-button img:hover {
-  transform: scale(1.1); /* Slight zoom effect on hover */
+  transform: scale(1.1);
 }
 
+/* Banana Animation */
+#banana-rain-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.banana {
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: auto;
+  animation: fall 5s linear infinite, spin 2s linear infinite;
+}
+
+/* Banana Falling Animation */
+@keyframes fall {
+  0% {
+    top: -50px;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100vh;
+    opacity: 0;
+  }
+}
+
+/* Banana Spinning Animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.login-page a,
+.register-page a {
+  color: #ffcc00; /* Default color */
+  font-weight: bold;
+  padding: 10px 15px;
+}
+
+.login-page a:hover,
+.register-page a:hover {
+  color: black;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  font-size: 1rem;
+}
