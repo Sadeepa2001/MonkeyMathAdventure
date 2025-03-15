@@ -33,6 +33,24 @@ document.addEventListener("DOMContentLoaded", function () {
     let score = 0; // Initialize score
     let timerInterval;
 
+    // Audio Elements
+    const backgroundMusic = document.getElementById("background-music");
+
+    // Play background music when the game starts
+    backgroundMusic.play();
+
+    // Mute/Unmute Button
+    const muteButton = document.getElementById("mute-button");
+    muteButton.addEventListener("click", function () {
+        if (backgroundMusic.muted) {
+            backgroundMusic.muted = false;
+            muteButton.textContent = "🔊";
+        } else {
+            backgroundMusic.muted = true;
+            muteButton.textContent = "🔈 ";
+        }
+    });
+
     // Update UI elements
     const timerDisplay = document.getElementById("timer");
     timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;

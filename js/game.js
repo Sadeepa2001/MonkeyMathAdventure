@@ -66,6 +66,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Audio Elements
+  const backgroundMusic = document.getElementById("background-music");
+
+  // Play background music when the game starts
+  backgroundMusic.play();
+
+  // Mute/Unmute Button
+  const muteButton = document.getElementById("mute-button");
+  muteButton.addEventListener("click", function () {
+      if (backgroundMusic.muted) {
+          backgroundMusic.muted = false;
+          muteButton.textContent = "🔊";
+      } else {
+          backgroundMusic.muted = true;
+          muteButton.textContent = "🔈 ";
+      }
+  });
+
   // 🔹 Fix Navigation Buttons
   const startGameButton = document.getElementById("start-game");
   const aboutButton = document.getElementById("about");
