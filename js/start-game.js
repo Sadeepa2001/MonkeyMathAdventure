@@ -146,4 +146,27 @@ document.addEventListener("DOMContentLoaded", function () {
             feedback.style.color = "red";
         }
     }
+
+    // Function to update world clock in real time
+    function updateWorldClock() {
+        const clockDisplay = document.getElementById("world-clock");
+        setInterval(() => {
+            const now = new Date();
+            clockDisplay.textContent = `🕒 ${now.toLocaleTimeString()}`;
+        }, 1000);
+    }
+
+    // Function to update calendar in real time
+    function updateCalendar() {
+        const calendarElement = document.getElementById("calendar");
+        if (calendarElement) {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            calendarElement.textContent = `📅 ${now.toLocaleDateString(undefined, options)}`;
+        }
+    }
+
+    // Start world clock and calendar updates
+    updateWorldClock();
+    updateCalendar();
 });
