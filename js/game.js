@@ -1,4 +1,10 @@
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "./firebase-config.js";
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  googleProvider,
+  signInWithPopup,
+} from "./firebase-config.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("login-form");
@@ -44,6 +50,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // 🔹 Google Sign-In
+  const googleSignInButton = document.getElementById("google-sign-in");
+  if (googleSignInButton) {
+    googleSignInButton.addEventListener("click", async () => {
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        alert("✅ Google Sign-In Successful!");
+        window.location.href = "home.html"; // Redirect to home page after successful sign-in
+      } catch (error) {
+        console.error("Google Sign-In Error:", error);
+        alert("❌ Google Sign-In Failed: " + error.message);
+      }
+    });
+  }
+
   // 🔹 Fix Navigation Buttons
   const startGameButton = document.getElementById("start-game");
   const aboutButton = document.getElementById("about");
@@ -67,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  //Banana Animation (Only on Home Page)
+  // 🔹 Banana Animation (Only on Home Page)
   if (document.body.classList.contains("home-page")) {
     function generateBananas() {
       for (let i = 0; i < 10; i++) {
@@ -83,20 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     setInterval(generateBananas, 2000);
   }
-});
-document.addEventListener("DOMContentLoaded", function () {
-  // 🔹 Navigation for Main Buttons
-  document.getElementById("start-game")?.addEventListener("click", () => {
-    window.location.href = "level-selection.html";
-  });
-
-  document.getElementById("about")?.addEventListener("click", () => {
-    window.location.href = "about.html";
-  });
-
-  document.getElementById("leaderboard")?.addEventListener("click", () => {
-    window.location.href = "leaderboard.html";
-  });
 
   // 🔹 Navigation for Icon Buttons
   document.getElementById("login-btn")?.addEventListener("click", () => {

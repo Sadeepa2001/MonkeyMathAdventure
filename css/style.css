@@ -15,6 +15,7 @@ body {
   position: relative; /* Allow absolute positioning for the banana bucket image */
   overflow: hidden; /* Ensure no scrollbars appear */
 }
+
 /* Semi-transparent container for form */
 #game-container {
   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for better contrast */
@@ -213,4 +214,34 @@ header {
 footer {
   margin-top: 40px;
   font-size: 1rem;
+}
+
+/* Google Sign-In Button */
+#google-sign-in {
+  display: inline-table;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8fc10; /* Google's red color */
+  color: rgb(7, 7, 7);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#google-sign-in img {
+  width: 20px; /* Adjust the size of the Google icon */
+  height: 20px;
+}
+
+#google-sign-in:hover {
+  background-color: #8cdd5a; /* Darker red on hover */
+  transform: scale(1.05);
+}
+
+#google-sign-in:active {
+  transform: scale(1);
 }
