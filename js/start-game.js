@@ -165,26 +165,62 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Function to update world clock in real time
-    function updateWorldClock() {
-        const clockDisplay = document.getElementById("world-clock");
-        setInterval(() => {
-            const now = new Date();
-            clockDisplay.textContent = `🕒 ${now.toLocaleTimeString()}`;
-        }, 1000);
-    }
+    // Update Calendar
+    async function updateCalendar() {
+        const calendarDisplay = document.getElementById("calendar-date");
+        if (!calendarDisplay) {
+            console.error("Element with ID 'calendar-date' not found.");
+            return;
+        }
 
-    // Function to update calendar in real time
-    function updateCalendar() {
-        const calendarElement = document.getElementById("calendar");
-        if (calendarElement) {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            calendarElement.textContent = `📅 ${now.toLocaleDateString(undefined, options)}`;
+        try {
+            const response = await fetch("https://www.timeapi.io/api/Time/current/zone?timeZone=UTC");
+            if (!response.ok) {
+                throw new Error("Failed to fetch date");
+            }
+            const data = await response.json();
+            console.log("Calendar Data:", data); // Debugging statement
+            const currentDate = `${data.day}-${data.month}-${data.year}`;
+            calendarDisplay.textContent = `📅 ${currentDate}`;
+        } catch (error) {
+            console.error("Failed to fetch calendar date:", error);
+            calendarDisplay.textContent = "Error loading date";
         }
     }
 
-    // Start world clock and calendar updates
+ // Update World Clock
+async function updateWorldClock() {
+    const clockDisplay = document.getElementById("world-clock");
+    if (!clockDisplay) {
+        console.error("Element with ID 'world-clock' not found.");
+        return;
+    }
+
+    // Get the user's local time zone dynamically
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    try {
+        const response = await fetch(`https://www.timeapi.io/api/Time/current/zone?timeZone=${timeZone}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch time");
+        }
+        const data = await response.json();
+        console.log("World Clock Data:", data); // Debugging statement
+
+        // Ensure all time components are two digits
+        const hour = String(data.hour).padStart(2, "0");
+        const minute = String(data.minute).padStart(2, "0");
+        const second = String(data.seconds).padStart(2, "0");
+
+        const currentTime = `${hour}:${minute}:${second}`;
+        clockDisplay.textContent = `🕒 ${currentTime}`;
+    } catch (error) {
+        console.error("Failed to fetch world time:", error);
+        clockDisplay.textContent = "Error loading time";
+    }
+}
+
     updateWorldClock();
     updateCalendar();
+    setInterval(updateWorldClock, 1000); // Update time every second
 });
