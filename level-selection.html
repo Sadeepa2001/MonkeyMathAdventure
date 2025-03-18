@@ -6,6 +6,18 @@
     <title>Select Game Level</title>
     <link rel="stylesheet" href="css/level-selection.css">
     <script defer src="js/level-selection.js"></script>
+     <!-- Token Validation Script -->
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+
+    // Check if the user is logged in
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        // Redirect to login page if the user is not logged in
+        window.location.href = "login.html";
+      }
+    });
+  </script>
 </head>
 <body class="level-selection-page">
     <div id="level-container">

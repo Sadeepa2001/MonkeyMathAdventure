@@ -6,6 +6,16 @@ import {
   signInWithPopup,
 } from "./firebase-config.js";
 
+  // 🔹 Token Validation on Page Load
+auth.onAuthStateChanged((user) => {
+  if (!user && !window.location.pathname.includes("login.html") && !window.location.pathname.includes("register.html")) {
+    // Redirect to login page if the user is not logged in and trying to access a protected page
+    window.location.href = "login.html";
+  } else if (user && (window.location.pathname.includes("login.html") || window.location.pathname.includes("register.html"))) {
+    // Redirect to home page if the user is already logged in and trying to access login/register pages
+    window.location.href = "home.html";
+  }
+});
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("login-form");
   const registerForm = document.getElementById("register-form");
@@ -24,7 +34,15 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Get the Firebase ID token
+        const idToken = await user.getIdToken();
+
+        // Save the token to local storage
+        localStorage.setItem("authToken", idToken);
+
         alert("✅ Registration Successful!");
         window.location.href = "login.html";
       } catch (error) {
@@ -41,7 +59,15 @@ document.addEventListener("DOMContentLoaded", function () {
       const password = document.getElementById("password").value;
 
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Get the Firebase ID token
+        const idToken = await user.getIdToken();
+
+        // Save the token to local storage
+        localStorage.setItem("authToken", idToken);
+
         alert("✅ Login Successful!");
         window.location.href = "home.html"; // ✅ Redirect to home page after login
       } catch (error) {
@@ -57,6 +83,12 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
+        // Get the Firebase ID token
+        const idToken = await user.getIdToken();
+
+        // Save the token to local storage
+        localStorage.setItem("authToken", idToken);
+
         alert("✅ Google Sign-In Successful!");
         window.location.href = "home.html"; // Redirect to home page after successful sign-in
       } catch (error) {

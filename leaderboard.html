@@ -6,6 +6,21 @@
     <title>Leaderboard</title>
     <link rel="stylesheet" href="css/leaderboard.css">
     <script defer src="js/leaderboard.js"></script>
+     <!-- Token Validation Script -->
+     <script type="module">
+        import { auth } from "./js/firebase-config.js";
+
+        // Check if the user is logged in
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                // Display a message before redirecting
+                alert("You are not logged in. Redirecting to the login page...");
+
+                // Redirect to login page if the user is not logged in
+                window.location.href = "login.html";
+            }
+        });
+    </script>
 </head>
 <body class="leaderboard-page">
     <div id="leaderboard-container">

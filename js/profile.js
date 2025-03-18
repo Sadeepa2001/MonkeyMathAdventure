@@ -19,8 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("logout-btn").addEventListener("click", function () {
     signOut(auth)
       .then(() => {
+        // Remove the token from local storage
+        localStorage.removeItem("authToken");
+
         alert("Logged out successfully!");
-        window.location.href = "login.html";
+        window.location.href = "login.html"; // Redirect to the login page
       })
       .catch((error) => {
         alert("Error logging out: " + error.message);
