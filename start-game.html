@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="css/start-game.css">
     <script defer src="js/start-game.js"></script>
     <link rel="icon" href="images/favicon.ico" />
+     <!-- Token Validation Script -->
+     <script type="module">
+        import { auth } from "./js/firebase-config.js";
+      
+        // Check if the user is logged in
+        auth.onAuthStateChanged((user) => {
+          if (!user) {
+            // Redirect to login page if the user is not logged in
+            window.location.href = "login.html";
+          }
+        });
+      </script>
 </head>
 <body class="game-page">
 

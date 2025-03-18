@@ -5,7 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Monkey Math Adventure</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Token Validation Script -->
+  <script type="module">
+    import { auth } from "./js/firebase-config.js";
 
+    // Check if the user is logged in
+    auth.onAuthStateChanged((user) => {
+        if (!user) {
+            // Display a message on the page
+            const aboutContainer = document.getElementById("about-container");
+            aboutContainer.innerHTML = `
+                <h1>Access Denied</h1>
+                <p>You are not logged in. Redirecting to the login page...</p>
+            `;
+
+            // Redirect to login page after 3 seconds
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 3000);
+        }
+    });
+</script>
 </head>
 <body class="home-page">
   <!-- Background Music -->
