@@ -1,6 +1,7 @@
 import { auth, db } from "./firebase-config.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 // Define gameLevel and score in a broader scope
@@ -11,29 +12,37 @@ let score = 0; // Initialize score
 async function saveScore(level, score) {
     const auth = getAuth();
     const user = auth.currentUser;
-
+    
     if (!user) {
         console.error("❌ User not logged in during saveScore.");
         return false;
     }
 
     try {
-        console.log("Attempting to save score for user:", user.uid);
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (!userDoc.exists()) {
+            throw new Error("User document not found");
+        }
+
+        const username = userDoc.data().username;
+        if (!username) {
+            throw new Error("Username not set in user profile");
+        }
+
         const docRef = await addDoc(collection(db, "scores"), {
             userId: user.uid,
+            username: username, // Guaranteed to exist
             email: user.email,
             level: level,
             score: score,
             timestamp: new Date()
         });
-        console.log("✅ Score saved successfully! Document ID:", docRef.id);
+        
+        console.log("✅ Score saved for user:", username);
         return true;
+        
     } catch (error) {
-        console.error("❌ Detailed Firestore Error:", {
-            code: error.code,
-            message: error.message,
-            stack: error.stack
-        });
+        console.error("❌ Score save failed:", error.message);
         return false;
     }
 }

@@ -36,24 +36,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         let rank = 1;
         for (const doc of scoresSnapshot.docs) {
             const data = doc.data();
+            console.log("Score data:", data); // Debug log
+
             const row = document.createElement("tr");
             
-            // Get username (try multiple sources)
-            let username = data.username;
-            if (!username && data.userId) {
-                try {
-                    const userDoc = await getDoc(doc(db, "users", data.userId));
-                    if (userDoc.exists()) {
-                        username = userDoc.data().username;
-                    }
-                } catch (error) {
-                    console.warn("Couldn't fetch username for user:", data.userId);
-                }
-            }
-
             row.innerHTML = `
                 <td>${rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank}</td>
-                <td>${username || data.email?.split('@')[0] || 'Player'}</td>
+                <td>${data.username || 'Unknown'}</td>
                 <td>${data.level || 'N/A'}</td>
                 <td>${data.score || 0}</td>
             `;
@@ -61,20 +50,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             rank++;
         }
 
-    } catch (error) {
-        console.error("Leaderboard error details:", {
-            code: error.code,
-            message: error.message,
-            stack: error.stack
-        });
-        
+     } catch (error) {
+        console.error("Leaderboard error:", error);
         leaderboardTable.innerHTML = `
-            <tr>
-                <td colspan="4">
-                    Error loading leaderboard<br>
-                    <small>${error.message}</small>
-                </td>
-            </tr>
+            <tr><td colspan="4">Error loading leaderboard</td></tr>
         `;
     }
 });
