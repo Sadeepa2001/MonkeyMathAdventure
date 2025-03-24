@@ -44,7 +44,12 @@ function endGame(won) {
     // Redirect to level selection page
     window.location.href = "level-selection.html";
 }
+document.addEventListener("DOMContentLoaded", function () {
+    // Test the saveScore function
+    saveScore("test@example.com", "easy", 100);
 
+    // Other game initialization code...
+});
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     gameLevel = urlParams.get("level") || "easy"; // Default to easy if no level is selected

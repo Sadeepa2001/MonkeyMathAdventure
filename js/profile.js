@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // 🔹 Fetch the username from Firestore
       const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
+      const userDoc = await getDoc(doc(db, "users", user.uid));
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
