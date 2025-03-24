@@ -1,25 +1,48 @@
 body.leaderboard-page {
-    background: url('images/leaderboard.jpg') no-repeat center center fixed;
+    background: url('../images/leaderboard.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 95vh;
+    min-height: 100vh;
     color: white;
     text-align: center;
+    padding: 20px;
 }
 
-#leaderboard-container {
+#game-container {
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
+    padding: 30px;
     border-radius: 20px;
-    width: 600px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.level-leaderboards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.leaderboard-section {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 300px;
+}
+
+.leaderboard-section h2 {
+    color: #ffcc00;
+    margin-bottom: 10px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 0 auto;
 }
 
 th, td {
@@ -34,12 +57,13 @@ th {
 
 .back-button {
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 10px 20px;
     background-color: #ffcc00;
     color: black;
     text-decoration: none;
     border-radius: 5px;
+    font-weight: bold;
 }
 
 .back-button:hover {
@@ -48,5 +72,10 @@ th {
 
 td:first-child {
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
+
+/* Medal colors */
+.gold { color: gold; }
+.silver { color: silver; }
+.bronze { color: #cd7f32; }
