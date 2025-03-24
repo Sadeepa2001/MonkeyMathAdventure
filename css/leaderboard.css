@@ -45,3 +45,8 @@ th {
 .back-button:hover {
     background-color: #e6b800;
 }
+
+td:first-child {
+    text-align: center;
+    font-size: 1.2em;
+}

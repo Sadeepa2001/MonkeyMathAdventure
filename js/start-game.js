@@ -1,63 +1,77 @@
 import { auth, db } from "./firebase-config.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// Function to save the user's score to Firestore
-async function saveScore(email, level, score) {
-    const user = auth.currentUser;
-    if (!user) {
-        console.error("User not logged in.");
-        return;
-    }
-
-    try {
-        await addDoc(collection(db, "scores"), {
-            userId: user.uid, // Add the user's UID
-            email: email,
-            level: level,
-            score: score,
-            timestamp: new Date()
-        });
-        console.log("Score saved successfully!", { email, level, score });
-    } catch (error) {
-        console.error("Error saving score:", error);
-    }
-}
 
 // Define gameLevel and score in a broader scope
 let gameLevel;
 let score = 0; // Initialize score
 
-function endGame(won) {
+// Function to save the user's score to Firestore
+async function saveScore(level, score) {
+    const auth = getAuth();
     const user = auth.currentUser;
+
     if (!user) {
-        console.error("User not logged in.");
-        return;
+        console.error("❌ User not logged in during saveScore.");
+        return false;
     }
 
-    const email = user.email;
+    try {
+        console.log("Attempting to save score for user:", user.uid);
+        const docRef = await addDoc(collection(db, "scores"), {
+            userId: user.uid,
+            email: user.email,
+            level: level,
+            score: score,
+            timestamp: new Date()
+        });
+        console.log("✅ Score saved successfully! Document ID:", docRef.id);
+        return true;
+    } catch (error) {
+        console.error("❌ Detailed Firestore Error:", {
+            code: error.code,
+            message: error.message,
+            stack: error.stack
+        });
+        return false;
+    }
+}
+
+function endGame(won, user) {
     const message = won ? `🎉 Congratulations! You won with a score of ${score}!` : `❌ Game Over! Your score is ${score}. Try again.`;
     alert(message);
 
-    // Save the score to Firestore
-    saveScore(email, gameLevel, score);
-
-    // Redirect to level selection page
-    window.location.href = "level-selection.html";
+    // Save score and check if successful
+    saveScore(gameLevel, score).then((success) => {
+        if (!success) {
+            console.error("Failed to save score.");
+        }
+        window.location.href = "level-selection.html";
+    });
 }
-document.addEventListener("DOMContentLoaded", function () {
-    // Test the saveScore function
-    saveScore("test@example.com", "easy", 100);
 
-    // Other game initialization code...
-});
 document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    gameLevel = urlParams.get("level") || "easy"; // Default to easy if no level is selected
+    const auth = getAuth();
 
-    const levelDisplay = document.getElementById("selected-level");
-    if (levelDisplay) {
-        levelDisplay.textContent = `Level: ${gameLevel.toUpperCase()}`;
-    }
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("User is logged in:", user.uid);
+            initializeGame(user);
+        } else {
+            console.error("User not logged in. Redirecting to login...");
+            window.location.href = "login.html";
+        }
+    });
+
+    function initializeGame(user) {
+        const urlParams = new URLSearchParams(window.location.search);
+        gameLevel = urlParams.get("level") || "easy";
+
+        const levelDisplay = document.getElementById("selected-level");
+        if (levelDisplay) {
+            levelDisplay.textContent = `Level: ${gameLevel.toUpperCase()}`;
+        }
 
     // Game settings based on level
     let timeLimit, lives;
@@ -104,27 +118,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update UI elements
     const timerDisplay = document.getElementById("timer");
-    timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
+    if (timerDisplay) timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
 
     const livesDisplay = document.getElementById("lives");
-    livesDisplay.textContent = `❤️ Lives: ${remainingLives}`;
+    if (livesDisplay) livesDisplay.textContent = `❤️ Lives: ${remainingLives}`;
 
     const scoreDisplay = document.getElementById("score");
-    scoreDisplay.textContent = `⭐ Score: ${score}`;
+    if (scoreDisplay) scoreDisplay.textContent = `⭐ Score: ${score}`;
 
     // Function to start the countdown timer
     function startTimer() {
-        clearInterval(timerInterval); // Clear any existing interval
-        remainingTime = timeLimit; // Reset remaining time
-        timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
+        clearInterval(timerInterval);
+        remainingTime = timeLimit;
+        if (timerDisplay) timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
 
         timerInterval = setInterval(() => {
             remainingTime--;
-            timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
+            if (timerDisplay) timerDisplay.textContent = `⏳ Timer: ${remainingTime}s`;
 
             if (remainingTime <= 0) {
                 clearInterval(timerInterval);
-                endGame(false);
+                endGame(false, user);
             }
         }, 1000);
     }
@@ -135,44 +149,46 @@ document.addEventListener("DOMContentLoaded", function () {
     const userInput = document.getElementById("user-answer");
     const feedback = document.getElementById("feedback");
 
-    submitButton.addEventListener("click", function () {
-        const userAnswer = parseInt(userInput.value.trim());
+    if (submitButton && userInput && feedback) {
+        submitButton.addEventListener("click", function () {
+            const userAnswer = parseInt(userInput.value.trim());
 
-        if (isNaN(userAnswer)) {
-            feedback.textContent = "⚠️ Please enter a valid number!";
-            feedback.style.color = "orange";
-            return;
-        }
-
-        if (userAnswer === correctAnswer) {
-            feedback.textContent = "🎉 Correct! Well done!";
-            feedback.style.color = "green";
-            score += 10; // Increment score
-            scoreDisplay.textContent = `⭐ Score: ${score}`; // Update score display
-
-            if (score >= 100) {
-                clearInterval(timerInterval);
-                endGame(true);
+            if (isNaN(userAnswer)) {
+                feedback.textContent = "⚠️ Please enter a valid number!";
+                feedback.style.color = "orange";
                 return;
             }
 
-            setTimeout(() => {
-                feedback.textContent = "";
-                userInput.value = "";
-                fetchBananaQuestion();
-            }, 2000);
-        } else {
-            feedback.textContent = "❌ Wrong answer! Try again.";
-            feedback.style.color = "red";
-            remainingLives--;
-            livesDisplay.textContent = `❤️ Lives: ${remainingLives}`;
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = "🎉 Correct! Well done!";
+                feedback.style.color = "green";
+                score += 10;
+                if (scoreDisplay) scoreDisplay.textContent = `⭐ Score: ${score}`;
 
-            if (remainingLives === 0) {
-                clearInterval(timerInterval);
-                endGame(false);
+                if (score >= 100) {
+                    clearInterval(timerInterval);
+                    endGame(true, user);
+                    return;
+                }
+
+                setTimeout(() => {
+                    feedback.textContent = "";
+                    userInput.value = "";
+                    fetchBananaQuestion();
+                }, 2000);
+            } else {
+                feedback.textContent = "❌ Wrong answer! Try again.";
+                feedback.style.color = "red";
+                remainingLives--;
+                if (livesDisplay) livesDisplay.textContent = `❤️ Lives: ${remainingLives}`;
+
+                if (remainingLives === 0) {
+                    clearInterval(timerInterval);
+                    endGame(false, user);
+                }
             }
-        }
-    });
+        });
+    }
 
     // Fetch a new math question from the API
     async function fetchBananaQuestion() {
@@ -269,4 +285,4 @@ document.addEventListener("DOMContentLoaded", function () {
     updateWorldClock();
     updateCalendar();
     setInterval(updateWorldClock, 1000); // Update time every second
-});
+}});
