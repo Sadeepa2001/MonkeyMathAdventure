@@ -10,12 +10,10 @@ import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-
 
 // 🔹 Token Validation on Page Load
 auth.onAuthStateChanged((user) => {
-  if (!user && !window.location.pathname.includes("login.html") && !window.location.pathname.includes("register.html")) {
-    // Redirect to login page if the user is not logged in and trying to access a protected page
-    window.location.href = "login.html";
-  } else if (user && (window.location.pathname.includes("login.html") || window.location.pathname.includes("register.html"))) {
-    // Redirect to home page if the user is already logged in and trying to access login/register pages
-    window.location.href = "home.html";
+  if (!user) {
+    if (!window.location.pathname.includes("login.html") && !window.location.pathname.includes("register.html")) {
+      window.location.href = "login.html"; // Redirect only if the user is not logged in and is on a protected page
+    }
   }
 });
 
