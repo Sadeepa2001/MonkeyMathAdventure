@@ -1,21 +1,27 @@
-// Simulated leaderboard data
-const leaderboardData = [
-    { rank: 1, player: "Player1", score: 1000 },
-    { rank: 2, player: "Player2", score: 850 },
-    { rank: 3, player: "Player3", score: 720 },
-];
+import { db } from "./firebase-config.js";
+import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Function to display leaderboard
-function displayLeaderboard() {
-    const tbody = document.querySelector("#leaderboard-table tbody");
-    tbody.innerHTML = ""; // Clear any existing data
+document.addEventListener("DOMContentLoaded", async function () {
+  const leaderboardTable = document.querySelector("#leaderboard tbody");
 
-    leaderboardData.forEach((entry) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${entry.rank}</td><td>${entry.player}</td><td>${entry.score}</td>`;
-        tbody.appendChild(row);
-    });
-}
+  // Fetch scores from Firestore
+  const scoresQuery = query(collection(db, "scores"), orderBy("score", "desc"));
+  const querySnapshot = await getDocs(scoresQuery);
 
-// Load leaderboard when page loads
-window.onload = displayLeaderboard;
+  // Clear the table
+  leaderboardTable.innerHTML = "";
+
+  // Populate the table with scores
+  querySnapshot.forEach((doc, index) => {
+    const data = doc.data();
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${data.email}</td>
+      <td>${data.level}</td>
+      <td>${data.score}</td>
+      
+    `;
+    leaderboardTable.appendChild(row);
+  });
+});

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
     <link rel="stylesheet" href="css/leaderboard.css">
-    <script defer src="js/leaderboard.js"></script>
+    <script type="module" defer src="js/leaderboard.js"></script>
      <!-- Token Validation Script -->
      <script type="module">
         import { auth } from "./js/firebase-config.js";
@@ -23,13 +23,14 @@
     </script>
 </head>
 <body class="leaderboard-page">
-    <div id="leaderboard-container">
+    <div id="game-container">
         <h1>Leaderboard</h1>
-        <table id="leaderboard-table">
+        <table id="leaderboard">
             <thead>
                 <tr>
                     <th>Rank</th>
-                    <th>Player</th>
+                    <th>Email</th>
+                    <th>Level</th>
                     <th>Score</th>
                 </tr>
             </thead>

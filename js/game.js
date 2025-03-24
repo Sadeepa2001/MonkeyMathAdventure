@@ -4,9 +4,11 @@ import {
   signInWithEmailAndPassword,
   googleProvider,
   signInWithPopup,
+  db
 } from "./firebase-config.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  // 🔹 Token Validation on Page Load
+// 🔹 Token Validation on Page Load
 auth.onAuthStateChanged((user) => {
   if (!user && !window.location.pathname.includes("login.html") && !window.location.pathname.includes("register.html")) {
     // Redirect to login page if the user is not logged in and trying to access a protected page
@@ -16,6 +18,7 @@ auth.onAuthStateChanged((user) => {
     window.location.href = "home.html";
   }
 });
+
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("login-form");
   const registerForm = document.getElementById("register-form");
@@ -24,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (registerForm) {
     registerForm.addEventListener("submit", async function (event) {
       event.preventDefault();
-      const email = document.getElementById("email").value;
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirm-password").value;
 
@@ -36,12 +40,20 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+        const userId = user.uid;
 
         // Get the Firebase ID token
-        const idToken = await user.getIdToken();
+        const idToken = await user.getIdToken(); // ✅ This must be awaited
 
         // Save the token to local storage
-        localStorage.setItem("authToken", idToken);
+        localStorage.setItem("authToken", idToken); // ✅ Save it properly
+
+        // Store user details in Firestore
+        await setDoc(doc(db, "users", userId), {
+          username: username,
+          email: email,
+          createdAt: new Date(),
+        });
 
         alert("✅ Registration Successful!");
         window.location.href = "login.html";
@@ -76,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+
   // 🔹 Google Sign-In
   const googleSignInButton = document.getElementById("google-sign-in");
   if (googleSignInButton) {
@@ -98,48 +111,50 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Audio Elements
+
+  // 🔹 Background Music
   const backgroundMusic = document.getElementById("background-music");
+  if (backgroundMusic) {
+    backgroundMusic.volume = 0.5; // Set volume to a reasonable level
+    backgroundMusic.loop = true;
 
-  // Play background music when the game starts
-  backgroundMusic.play();
+    // Play background music when the game starts
+      backgroundMusic.play();
+    }
 
-  // Mute/Unmute Button
+  // 🔹 Mute/Unmute Button
   const muteButton = document.getElementById("mute-button");
-  muteButton.addEventListener("click", function () {
-      if (backgroundMusic.muted) {
-          backgroundMusic.muted = false;
-          muteButton.textContent = "🔊";
-      } else {
-          backgroundMusic.muted = true;
-          muteButton.textContent = "🔈 ";
-      }
-  });
+  if (muteButton && backgroundMusic) {
+    muteButton.addEventListener("click", function () {
+      backgroundMusic.muted = !backgroundMusic.muted;
+      muteButton.textContent = backgroundMusic.muted ? "🔈" : "🔊";
+    });
+  }
 
-  // 🔹 Fix Navigation Buttons
+  // 🔹 Navigation Buttons
   const startGameButton = document.getElementById("start-game");
   const aboutButton = document.getElementById("about");
   const leaderboardButton = document.getElementById("leaderboard");
 
   if (startGameButton) {
     startGameButton.addEventListener("click", function () {
-      window.location.href = "level-selection.html"; // ✅ Start Game Page
+      window.location.href = "level-selection.html";
     });
   }
 
   if (aboutButton) {
     aboutButton.addEventListener("click", function () {
-      window.location.href = "about.html"; // ✅ About Page
+      window.location.href = "about.html";
     });
   }
 
   if (leaderboardButton) {
     leaderboardButton.addEventListener("click", function () {
-      window.location.href = "leaderboard.html"; // ✅ Leaderboard Page
+      window.location.href = "leaderboard.html";
     });
   }
 
-  // 🔹 Banana Animation (Only on Home Page)
+  // 🔹 Falling Bananas Animation (Only on Home Page)
   if (document.body.classList.contains("home-page")) {
     function generateBananas() {
       for (let i = 0; i < 10; i++) {

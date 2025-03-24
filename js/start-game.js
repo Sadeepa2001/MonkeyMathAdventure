@@ -1,6 +1,53 @@
+import { auth, db } from "./firebase-config.js";
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Function to save the user's score to Firestore
+async function saveScore(email, level, score) {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("User not logged in.");
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "scores"), {
+            userId: user.uid, // Add the user's UID
+            email: email,
+            level: level,
+            score: score,
+            timestamp: new Date()
+        });
+        console.log("Score saved successfully!", { email, level, score });
+    } catch (error) {
+        console.error("Error saving score:", error);
+    }
+}
+
+// Define gameLevel and score in a broader scope
+let gameLevel;
+let score = 0; // Initialize score
+
+function endGame(won) {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("User not logged in.");
+        return;
+    }
+
+    const email = user.email;
+    const message = won ? `🎉 Congratulations! You won with a score of ${score}!` : `❌ Game Over! Your score is ${score}. Try again.`;
+    alert(message);
+
+    // Save the score to Firestore
+    saveScore(email, gameLevel, score);
+
+    // Redirect to level selection page
+    window.location.href = "level-selection.html";
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const gameLevel = urlParams.get("level") || "easy"; // Default to easy if no level is selected
+    gameLevel = urlParams.get("level") || "easy"; // Default to easy if no level is selected
 
     const levelDisplay = document.getElementById("selected-level");
     if (levelDisplay) {
@@ -30,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let remainingTime = timeLimit;
     let remainingLives = lives;
     let correctAnswer;
-    let score = 0; // Initialize score
     let timerInterval;
 
     // Audio Elements
@@ -123,11 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    function endGame(won) {
-        alert(won ? `🎉 Congratulations! You won with a score of ${score}!` : `❌ Game Over! Your score is ${score}. Try again.`);
-        window.location.href = "level-selection.html";
-    }
-
     // Fetch a new math question from the API
     async function fetchBananaQuestion() {
         try {
@@ -188,37 +229,37 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
- // Update World Clock
-async function updateWorldClock() {
-    const clockDisplay = document.getElementById("world-clock");
-    if (!clockDisplay) {
-        console.error("Element with ID 'world-clock' not found.");
-        return;
-    }
-
-    // Get the user's local time zone dynamically
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    try {
-        const response = await fetch(`https://www.timeapi.io/api/Time/current/zone?timeZone=${timeZone}`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch time");
+    // Update World Clock
+    async function updateWorldClock() {
+        const clockDisplay = document.getElementById("world-clock");
+        if (!clockDisplay) {
+            console.error("Element with ID 'world-clock' not found.");
+            return;
         }
-        const data = await response.json();
-        console.log("World Clock Data:", data); // Debugging statement
 
-        // Ensure all time components are two digits
-        const hour = String(data.hour).padStart(2, "0");
-        const minute = String(data.minute).padStart(2, "0");
-        const second = String(data.seconds).padStart(2, "0");
+        // Get the user's local time zone dynamically
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-        const currentTime = `${hour}:${minute}:${second}`;
-        clockDisplay.textContent = `🕒 ${currentTime}`;
-    } catch (error) {
-        console.error("Failed to fetch world time:", error);
-        clockDisplay.textContent = "Error loading time";
+        try {
+            const response = await fetch(`https://www.timeapi.io/api/Time/current/zone?timeZone=${timeZone}`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch time");
+            }
+            const data = await response.json();
+            console.log("World Clock Data:", data); // Debugging statement
+
+            // Ensure all time components are two digits
+            const hour = String(data.hour).padStart(2, "0");
+            const minute = String(data.minute).padStart(2, "0");
+            const second = String(data.seconds).padStart(2, "0");
+
+            const currentTime = `${hour}:${minute}:${second}`;
+            clockDisplay.textContent = `🕒 ${currentTime}`;
+        } catch (error) {
+            console.error("Failed to fetch world time:", error);
+            clockDisplay.textContent = "Error loading time";
+        }
     }
-}
 
     updateWorldClock();
     updateCalendar();
