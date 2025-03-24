@@ -1,55 +1,81 @@
-import { auth } from "./firebase-config.js";
+import { auth, db } from "./firebase-config.js";
+import { collection, query, where, getDocs, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const auth = getAuth();
 
   // Check if a user is logged in
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
-      document.getElementById("user-email").textContent = user.email;
-      loadGameHistory(user.uid);
+      console.log("User is logged in:", user.uid); // Debugging log
+
+      // 🔹 Fetch the username from Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        document.getElementById("user-email").textContent = userData.username; // Display username instead of email
+        console.log("User Data:", userData); // Debugging log
+      } else {
+        console.warn("No user data found in Firestore!");
+        document.getElementById("user-email").textContent = "Unknown User";
+      }
+
+      loadGameHistory(user.uid); // Load game history for the logged-in user
     } else {
       alert("You are not logged in!");
       window.location.href = "login.html";
     }
   });
+});
 
-  // Logout Button
-  document.getElementById("logout-btn").addEventListener("click", function () {
-    signOut(auth)
-      .then(() => {
-        // Remove the token from local storage
-        localStorage.removeItem("authToken");
-
-        alert("Logged out successfully!");
-        window.location.href = "login.html"; // Redirect to the login page
-      })
-      .catch((error) => {
-        alert("Error logging out: " + error.message);
-      });
+// 🔹 Logout Button
+document.getElementById("logout-btn")?.addEventListener("click", () => {
+  signOut(auth).then(() => {
+    localStorage.removeItem("authToken"); // ✅ Clear token on logout
+    window.location.href = "login.html";
+  }).catch((error) => {
+    console.error("Logout Error:", error);
   });
 });
 
-// Function to load game history (Mock Data for now)
-function loadGameHistory(userId) {
+// 🔹 Function to Load Game History
+async function loadGameHistory(userId) {
   const historyTable = document.querySelector("#game-history tbody");
   historyTable.innerHTML = ""; // Clear old data
 
-  // TODO: Fetch actual game history from Firebase
-  const gameHistory = [
-    { level: "Easy", score: 100, date: "2025-03-10" },
-    { level: "Medium", score: 80, date: "2025-03-09" },
-    { level: "Hard", score: 50, date: "2025-03-08" }
-  ];
+  try {
+    console.log("Fetching game history for:", userId); // Debugging log
 
-  gameHistory.forEach((game) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${game.level}</td>
-      <td>${game.score}</td>
-      <td>${game.date}</td>
-    `;
-    historyTable.appendChild(row);
-  });
+    // Fetch game history for the logged-in user
+    const scoresQuery = query(
+      collection(db, "scores"),
+      where("userId", "==", userId), // Use userId instead of email
+      orderBy("timestamp", "desc")
+    );
+    const querySnapshot = await getDocs(scoresQuery);
+
+    if (querySnapshot.empty) {
+      historyTable.innerHTML = "<tr><td colspan='3'>No game history available.</td></tr>";
+      return;
+    }
+
+    // Populate the table with game history
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      console.log("Game History Document:", data); // Debugging log
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${data.level}</td>
+        <td>${data.score}</td>
+        <td>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</td>
+      `;
+      historyTable.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Error loading game history:", error);
+    alert("Failed to load game history. Please try again later.");
+  }
 }
