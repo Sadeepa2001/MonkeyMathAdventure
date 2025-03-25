@@ -1,10 +1,10 @@
 body.leaderboard-page {
-    background: url('../images/leaderboard.jpg') no-repeat center center fixed;
+    background: url('../images/leaderboard.jpeg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 90vh;
     color: white;
     text-align: center;
     padding: 20px;
