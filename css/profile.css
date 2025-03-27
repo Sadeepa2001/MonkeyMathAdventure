@@ -7,7 +7,7 @@ body.profile-page {
     justify-content: center;
     align-items: center;
     height: 96vh;
-    color: white;
+    color: rgb(3, 3, 3);
   }
   
   /* Profile container */
@@ -36,17 +36,20 @@ body.profile-page {
     margin-top: 15px;
     background: white;
     color: black;
+    
   }
   
   th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 25px;
+    border: 5px solid #ddd;
     text-align: center;
+    font-size: 1.1rem;
   }
   
   th {
     background: #ffcc00;
     color: black;
+    font-size: 1.5rem;
   }
   
   /* Button container */
