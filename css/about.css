@@ -1,13 +1,13 @@
 body.about-page {
-    background: url('images/about.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
 #about-container {
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 50px;
+    padding: 30px;
     border-radius: 20px;
-    max-width: 600px;
+    width: 650px;
+    height: 360px;
     margin: 130px auto;
     position: relative; /* Add this line */
     color: white;
