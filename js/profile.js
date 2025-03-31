@@ -75,10 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const data = doc.data();
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${data.level || "N/A"}</td>
-                    <td>${data.score || 0}</td>
-                    <td>${data.timestamp?.toDate?.().toLocaleString() || "N/A"}</td>
-                `;
+                        <td class="${data.level || ''}">${data.level || "N/A"}</td>
+                        <td>${data.score || 0}</td>
+                        <td>${data.timestamp?.toDate?.().toLocaleString() || "N/A"}</td>
+                        `;
                 historyTable.appendChild(row);
             });
         } catch (error) {

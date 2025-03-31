@@ -5,32 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile - Monkey Math Adventure</title>
   <link rel="stylesheet" href="css/profile.css">
+  
 </head>
 <body class="profile-page">
-  <div id="game-container">
-    <h1>Profile</h1>
-    <p>Username: <span id="user-email"></span></p>
-    <h2>Game History</h2>
-    <table id="game-history">
-      <thead>
-        <tr>
-          <th>Level</th>
-          <th>Score</th>
-          <th>Timestamp</th>
+  <div id="profile-card">
+    <div class="avatar-container">
+      <h1>Player Profile</h1>
+      <div class="avatar">🐵</div>
+    </div>
+
+    <div class="profile-header">
+      <div class="player-name" id="user-email"></div>
+      <h2>Game History</h2>
+    </div>
+
+  <div class="game-history">
+      <table id="game-history">
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Score</th>
+            <th>Date</th>
         </tr>
       </thead>
       <tbody>
           <!-- Game history will be loaded here -->
         </tbody>
       </table>
-      <div class="button-container">
-        <a href="home.html" class="back-button">Back</a>
     </div>
-    <button id="logout-btn">Logout</button>
-    </main>
-  </div>
-
-  <script type="module" src="js/profile.js"></script>
   
+      <div class="profile-actions">
+        <a href="home.html" class="profile-button">Back</a>
+        <button id="logout-btn" class="profile-button">Log Out</button>
+      </div>
+  </div>
+  <script type="module" src="js/profile.js"></script> 
 </body>
 </html>
