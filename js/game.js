@@ -90,32 +90,32 @@ document.addEventListener("DOMContentLoaded", function () {
   // 🔹 Google Sign-In
 // 🔹 Google Sign-In
 const googleSignInButton = document.getElementById("google-sign-in");
-if (googleSignInButton) {
-    googleSignInButton.addEventListener("click", async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
-            
-            // Extract first name from Google display name
-            const firstName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
-            
-            // Store user details in Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                username: firstName, // Store only first name
-                email: user.email,
-                createdAt: new Date()
-            }, { merge: true });
+  if (googleSignInButton) {
+      googleSignInButton.addEventListener("click", async () => {
+          try {
+              const result = await signInWithPopup(auth, googleProvider);
+              const user = result.user;
+              
+              // Extract first name from Google display name
+              const firstName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
+              
+              // Store user details in Firestore
+              await setDoc(doc(db, "users", user.uid), {
+                  username: firstName, // Store only first name
+                  email: user.email,
+                  createdAt: new Date()
+              }, { merge: true });
 
-            // Continue with sign-in flow
-            const idToken = await user.getIdToken();
-            localStorage.setItem("authToken", idToken);
-            alert("✅ Google Sign-In Successful!");
-            window.location.href = "home.html";
-        } catch (error) {
-            console.error("Google Sign-In Error:", error);
-            alert("❌ Google Sign-In Failed: " + error.message);
-        }
-    });
+              // Continue with sign-in flow
+              const idToken = await user.getIdToken();
+              localStorage.setItem("authToken", idToken);
+              alert("✅ Google Sign-In Successful!");
+              window.location.href = "home.html";
+          } catch (error) {
+              console.error("Google Sign-In Error:", error);
+              alert("❌ Google Sign-In Failed: " + error.message);
+          }
+      });
 }
 
 
