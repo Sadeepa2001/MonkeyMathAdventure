@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("❌ History table not found in DOM.");
           return;
       }
-
       historyTable.innerHTML = "<tr><td colspan='3'>Loading history...</td></tr>";
 
         try {
