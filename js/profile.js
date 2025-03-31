@@ -16,16 +16,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                const userEmailElement = document.getElementById("user-email");
-                if (userEmailElement) {
-                    userEmailElement.textContent = userData.username || user.email;
+                const usernameElement = document.getElementById("user-email"); // Consider renaming this to "username-display"
+                if (usernameElement) {
+                    // Display the stored username (already first name for Google users)
+                    usernameElement.textContent = userData.username;
                 }
-                console.log("User Data:", userData);
             } else {
-                console.warn("No user data found in Firestore!");
-                const userEmailElement = document.getElementById("user-email");
-                if (userEmailElement) {
-                    userEmailElement.textContent = user.email || "Unknown User";
+                // For Google users without a doc, create one with first name
+                const firstName = user.displayName ? user.displayName.split(' ')[0] : user.email.split('@')[0];
+                await setDoc(doc(db, "users", user.uid), {
+                    username: firstName,
+                    email: user.email,
+                    createdAt: new Date()
+                });
+                
+                const usernameElement = document.getElementById("user-email");
+                if (usernameElement) {
+                    usernameElement.textContent = firstName;
                 }
             }
 
@@ -53,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error("❌ History table not found in DOM.");
           return;
       }
-
       historyTable.innerHTML = "<tr><td colspan='3'>Loading history...</td></tr>";
 
         try {
