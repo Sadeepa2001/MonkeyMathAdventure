@@ -6,7 +6,6 @@
   <title>Login - Monkey Math Adventure</title>
   <link rel="stylesheet" href="css/style.css">
   <img src="images/bucket.png"  alt"Banana Bucket" class="banana-bucket">
-
 </head>
 <body class="login-page">
   <div id="game-container">
@@ -31,8 +30,14 @@
             
           <button type="submit" class="game-button">Login</button>
         </form>
-        <p>Don't have an account? <a href="register.html">Sign up</a></p>
-        <div class="social-login">
+          <!-- Add this right after your login button in login.html -->
+          <div class="form-footer">
+            <div class="auth-links">
+              <p>Don't have an account? <a href="register.html">Sign up</a></p>
+              <a href="reset-password.html" class="forgot-password">Forgot Password?</a>
+            </div>
+          </div>        
+          <div class="social-login">
           <button type="button" id="google-sign-in" class="social-button">
             <img src="images/google-icon.png" alt="Google Icon"> Sign in with Google
           </button>

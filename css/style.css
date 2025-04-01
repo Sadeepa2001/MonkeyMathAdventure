@@ -19,7 +19,7 @@ body {
 /* Semi-transparent container for form */
 #game-container {
   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for better contrast */
-  padding: 60px;
+  padding: 40px;
   border-radius: 30px;
   width: 100%;
   max-width: 600px;
