@@ -250,13 +250,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error("Failed to fetch date");
             }
             const data = await response.json();
-            console.log("Calendar Data:", data); // Debugging statement
-            const currentDate = `${data.day}-${data.month}-${data.year}`;
-            calendarDisplay.textContent = `📅 ${currentDate}`;
-        } catch (error) {
-            console.error("Failed to fetch calendar date:", error);
-            calendarDisplay.textContent = "Error loading date";
-        }
+            console.log("Calendar Data:", data);
+        
+        // Format date with leading zeros and proper ordering
+        const now = new Date();
+        const fallbackDate = `${String(now.getDate()).padStart(2, "0")}-${String(now.getMonth()+1).padStart(2, "0")}-${now.getFullYear()}`;
+        calendarDisplay.textContent = `📅 ${fallbackDate}`;
+    } catch (error) {
+        console.error("Failed to fetch calendar date:", error);
+        calendarDisplay.textContent = "Error loading date";
+    }
     }
 
     // Update World Clock
@@ -294,4 +297,5 @@ document.addEventListener("DOMContentLoaded", function () {
     updateWorldClock();
     updateCalendar();
     setInterval(updateWorldClock, 1000); // Update time every second
+    setInterval(updateCalendar, 3600000); // Update date every hour (3600000ms)
 }});
