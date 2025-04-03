@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (userDoc.exists()) {
                 const userData = userDoc.data();
-                const usernameElement = document.getElementById("user-email"); // Consider renaming this to "username-display"
+                const usernameElement = document.getElementById("user-email"); 
                 if (usernameElement) {
                     // Display the stored username (already first name for Google users)
                     usernameElement.textContent = userData.username;

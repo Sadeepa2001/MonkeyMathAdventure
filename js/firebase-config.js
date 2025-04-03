@@ -22,7 +22,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app); // Initialize Firestore
+const db = getFirestore(app);
 
 // Initialize Google Provider
 const googleProvider = new GoogleAuthProvider();
@@ -34,5 +34,5 @@ export {
   signInWithEmailAndPassword,
   googleProvider,
   signInWithPopup,
-  db, // Export Firestore
+  db,
 };

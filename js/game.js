@@ -41,10 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const userId = user.uid;
 
         // Get the Firebase ID token
-        const idToken = await user.getIdToken(); // ✅ This must be awaited
-
+        const idToken = await user.getIdToken(); 
         // Save the token to local storage
-        localStorage.setItem("authToken", idToken); // ✅ Save it properly
+        localStorage.setItem("authToken", idToken); 
 
         // Store user details in Firestore
         await setDoc(doc(db, "users", userId), {
@@ -79,15 +78,13 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("authToken", idToken);
 
         alert("✅ Login Successful!");
-        window.location.href = "home.html"; // ✅ Redirect to home page after login
+        window.location.href = "home.html"; 
       } catch (error) {
         alert("❌ Login Failed: " + error.message);
       }
     });
   }
 
-
-  // 🔹 Google Sign-In
 // 🔹 Google Sign-In
 const googleSignInButton = document.getElementById("google-sign-in");
 if (googleSignInButton) {
@@ -121,7 +118,7 @@ if (googleSignInButton) {
   // 🔹 Background Music
   const backgroundMusic = document.getElementById("background-music");
   if (backgroundMusic) {
-    backgroundMusic.volume = 0.5; // Set volume to a reasonable level
+    backgroundMusic.volume = 0.5;
     backgroundMusic.loop = true;
 
     // Play background music when the game starts

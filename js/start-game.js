@@ -6,7 +6,7 @@ import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-
 
 // Define gameLevel and score in a broader scope
 let gameLevel;
-let score = 0; // Initialize score
+let score = 0; 
 
 // Function to save the user's score to Firestore
 async function saveScore(level, score) {
@@ -31,7 +31,7 @@ async function saveScore(level, score) {
 
         const docRef = await addDoc(collection(db, "scores"), {
             userId: user.uid,
-            username: username, // Guaranteed to exist
+            username: username, 
             email: user.email,
             level: level,
             score: score,
@@ -86,15 +86,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let timeLimit, lives;
     switch (gameLevel) {
         case "easy":
-            timeLimit = 60; // 60 seconds
+            timeLimit = 60;
             lives = 5;
             break;
         case "medium":
-            timeLimit = 40; // 40 seconds
+            timeLimit = 40; 
             lives = 3;
             break;
         case "hard":
-            timeLimit = 25; // 25 seconds
+            timeLimit = 25;
             lives = 2;
             break;
         default:
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error("Failed to fetch time");
             }
             const data = await response.json();
-            console.log("World Clock Data:", data); // Debugging statement
+            console.log("World Clock Data:", data); 
 
             // Ensure all time components are two digits
             const hour = String(data.hour).padStart(2, "0");
@@ -296,6 +296,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateWorldClock();
     updateCalendar();
-    setInterval(updateWorldClock, 1000); // Update time every second
-    setInterval(updateCalendar, 3600000); // Update date every hour (3600000ms)
+    setInterval(updateWorldClock, 1000); 
+    setInterval(updateCalendar, 3600000); 
 }});

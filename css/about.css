@@ -9,7 +9,7 @@ body.about-page {
     width: 652px;
     height: 360px;
     margin: 130px auto;
-    position: relative; /* Add this line */
+    position: relative;
     color: white;
     text-align: left;
     font-family: Arial, sans-serif;

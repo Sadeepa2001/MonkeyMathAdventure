@@ -12,7 +12,7 @@ body.level-selection-page {
     border-radius: 25px;
     width: 400px;
     margin: 150px auto;
-    position: relative; /* Add this line */
+    position: relative;
 }
 
 h1 {
@@ -48,10 +48,10 @@ h1 {
 
 .back-button {
     display: inline-block;
-    position: absolute; /* Add this line */
-    bottom: 10px; /* Add this line */
-    right: 20px; /* Add this line */
-    padding: 10px 20px; /* Adjust padding as needed */
+    position: absolute; 
+    bottom: 10px; 
+    right: 20px; 
+    padding: 10px 20px;
     background-color: #ffcc00;
     color: black;
     text-decoration: none;

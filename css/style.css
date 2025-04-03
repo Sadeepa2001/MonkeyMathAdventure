@@ -12,13 +12,13 @@ body {
   align-items: center;
   color: white;
   margin: 0;
-  position: relative; /* Allow absolute positioning for the banana bucket image */
-  overflow: hidden; /* Ensure no scrollbars appear */
+  position: relative;
+  overflow: hidden;
 }
 
 /* Semi-transparent container for form */
 #game-container {
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for better contrast */
+  background-color: rgba(0, 0, 0, 0.7); 
   padding: 40px;
   border-radius: 30px;
   width: 100%;
@@ -30,8 +30,8 @@ body {
 .banana-bucket {
   position: absolute;
   top: 50%;
-  right: 10%; /* Adjust for better alignment */
-  width: 350px; /* Set a size for the image */
+  right: 10%;
+  width: 350px;
   height: auto;
   z-index: 1;
 }
@@ -88,7 +88,7 @@ header {
   top: -10px;
   font-size: 0.85rem;
   color: #ffcc00;
-  opacity: 0; /* Hide label */
+  opacity: 0;
 }
 
 /* Buttons styling */
@@ -200,7 +200,7 @@ header {
 
 .login-page a,
 .register-page a {
-  color: #ffcc00; /* Default color */
+  color: #ffcc00;
   font-weight: bold;
   padding: 10px 15px;
 }
@@ -225,20 +225,21 @@ footer {
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
-  background-color: #f8fc10; /* Google's red color */
+  background-color: #f8fc10;
   color: rgb(7, 7, 7);
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Adjust the Google icon */
 #google-sign-in img {
-  width: 20px; /* Adjust the size of the Google icon */
+  width: 20px; 
   height: 20px;
 }
 
 #google-sign-in:hover {
-  background-color: #8cdd5a; /* Darker red on hover */
+  background-color: #8cdd5a; 
   transform: scale(1.05);
 }
 
@@ -251,7 +252,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  gap: 10px; /* Add gap between items */
+  gap: 10px;
 }
 
 /* Mute Button */

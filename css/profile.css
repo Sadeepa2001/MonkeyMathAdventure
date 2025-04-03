@@ -6,8 +6,8 @@ body.profile-page {
   margin: 0;
   color: #e8e4e4;
   display: flex;
-  justify-content: flex-start; /* Changed from center to flex-start */
-  padding-left: 100px; /* Added left padding */
+  justify-content: flex-start;
+  padding-left: 100px;
 }
 
 /* Profile Card */
