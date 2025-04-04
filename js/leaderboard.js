@@ -69,3 +69,5 @@ async function loadLeaderboard(level, tableId) {
         tableBody.innerHTML = "<tr><td colspan='3'>Error loading data</td></tr>";
     }
 }
+
+//this code by my own knowledge and get some AI support

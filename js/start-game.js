@@ -299,3 +299,5 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(updateWorldClock, 1000); 
     setInterval(updateCalendar, 3600000); 
 }});
+
+//this code by my own knowledge and get some AI support

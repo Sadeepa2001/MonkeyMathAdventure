@@ -93,3 +93,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+// this code by my own knowledge and experience.

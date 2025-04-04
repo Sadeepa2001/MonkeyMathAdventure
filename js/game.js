@@ -187,3 +187,5 @@ if (googleSignInButton) {
     window.location.href = "profile.html";
   });
 });
+
+//this code by my own knowledge and get some AI support
